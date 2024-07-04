@@ -1,7 +1,10 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
+
+
 import { AuthProvider } from "@/providers/auth-provider";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -10,10 +13,12 @@ export const metadata = {
   description: "Showcase and sale your talents",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+
   return (
     <html lang="en">
       <body className={inter.className}>
+        <Toaster richColors/>
         <Analytics />
         <AuthProvider>{children}</AuthProvider>
       </body>

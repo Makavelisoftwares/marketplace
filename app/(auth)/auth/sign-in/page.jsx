@@ -53,9 +53,8 @@ const formSchema = z.object({
 function SignInPage() {
   const [isSubmitting, setisSubmitting] = useState(false);
   const { push } = useRouter();
-  const param=useSearchParams()
-
   
+
   const form = useForm({
     resolver: zodResolver(formSchema),
   });
@@ -63,7 +62,6 @@ function SignInPage() {
   async function onSubmit(values) {
     try {
       setisSubmitting(true);
-      // const error=param.get("error");
 
       signIn("credentials", {
         callbackUrl: `${window.location.origin}`,
@@ -71,11 +69,6 @@ function SignInPage() {
         email: values.email,
         password: values.password,
       });
-
-      // if(error){
-      //   console.log(error)
-      // }
-     
     } catch (error) {
       console.log(error);
     } finally {

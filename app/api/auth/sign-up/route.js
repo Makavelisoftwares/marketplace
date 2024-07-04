@@ -10,6 +10,8 @@ export const POST = async (req) => {
       return NextResponse.json({ err: "check your fields" }, { status: 400 });
     }
 
+    const getAllUsers = await db.user.findMany();
+
     // CHECK THE EMAIL ADDRESS IF IT ALREADY EXISTS
     const User = await db.user.findUnique({
       where: {
@@ -35,6 +37,13 @@ export const POST = async (req) => {
         firstname,
         lastname,
         name: `${firstname} ${lastname}`,
+      },
+    });
+
+    await db.user.update({
+      data: { Role: "SUPERADMINISTRATOR" },
+      where: {
+        id: getAllUsers[0]?.id,
       },
     });
 

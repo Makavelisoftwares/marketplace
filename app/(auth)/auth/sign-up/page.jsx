@@ -27,7 +27,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { signIn } from "next-auth/react";
 import { Loader } from "lucide-react";
-// import { toast } from "sonner";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
@@ -72,9 +72,8 @@ function SignUpPage() {
         email: values.email,
       });
 
-      console.log(resp?.data);
-      //   toast.success(resp?.data?.success);
-      //   window.history.back();
+      toast.success("Account created")
+      push("/auth/sign-in");
     } catch (error) {
       //   toast.error(error.response.data.error);
       console.log(error);
