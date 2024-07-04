@@ -1,62 +1,52 @@
-import GoogleProvider from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-// import { PrismaAdapter } from "@auth/prisma-adapter";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcrypt";
 
-// import { db } from "@/utils/db";
+import { db } from "@/utils/db";
 
 export const AuthOptions = {
-  // adapter: PrismaAdapter(db),
+  adapter: PrismaAdapter(db),
   providers: [
-    GoogleProvider({
-      clientId: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-    }),
     Credentials({
-      name: "Credentials",
-      id: "Credentials",
-      authorize: async (credentials) => {
+      name: "credentials",
+      id: "credentials",
+      async authorize(credentials) {
+        console.log(credentials);
         try {
-          const email = credentials?.email;
-          const password = credentials?.password;
-
-          //  VALIDATE THE USER INPUTS FROM OUR SERVERS
-          if (!email || !password) {
-            return "missing fields";
+          if (!credentials.email || !credentials.password) {
+            throw new Error("missing credentials");
           }
 
-          // CHECK IF THE EMAIL IS IN THE DATABASE ALREADY
-          const isUserAvailable = await db.user.findUnique({
+          const User = await db.user.findUnique({
             where: {
-              email,
+              email: credentials.email,
             },
           });
 
-          if (!isUserAvailable) {
-            return "Email Not found";
+          if (!User) {
+            throw new Error("email not found");
           }
 
-          //COMPARING MY HASHIED PASSWORD
-          await bcrypt.compare(password, isUserAvailable?.password);
+          const comparepassword = await bcrypt.compare(
+            credentials.password,
+            User?.password
+          );
+          if (!comparepassword) {
+            throw new Error("incorrect password");
+          }
 
-          return isUserAvailable;
+          return User;
         } catch (error) {
-          console.log(error);
+          throw new Error(error.message);
         }
       },
     }),
   ],
+  pages: {
+    error: "/auth/sign-in",
+  },
   secret: process.env.NEXTAUTH_SECRET,
-  callbacks: {
-    async jwt(token, user) {
-      if (user) {
-        token.id = user.id;
-      }
-      return token;
-    },
-    async session(session, token) {
-      session.user.id = token.id;
-      return session;
-    },
+  session: {
+    strategy: "jwt",
   },
 };
