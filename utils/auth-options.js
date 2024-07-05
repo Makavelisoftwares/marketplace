@@ -27,6 +27,10 @@ export const AuthOptions = {
             throw new Error("email not found");
           }
 
+          if(User?.Blocked){
+            throw new Error("Account Blocked from accessing this platform")
+          }
+
           const comparepassword = await bcrypt.compare(
             credentials.password,
             User?.password

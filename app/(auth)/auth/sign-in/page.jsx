@@ -53,7 +53,7 @@ const formSchema = z.object({
 function SignInPage() {
   const [isSubmitting, setisSubmitting] = useState(false);
   const { push } = useRouter();
-  
+  const [loginError, setloginError] = useState("");
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -65,10 +65,22 @@ function SignInPage() {
 
       signIn("credentials", {
         callbackUrl: `${window.location.origin}`,
-        redirect: true,
+        redirect: false,
         email: values.email,
         password: values.password,
-      });
+      })
+        .then((res) => {
+          if (res?.error) {
+            setloginError(res.error);
+          }
+
+          if(!res?.error){
+            push("/")
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } catch (error) {
       console.log(error);
     } finally {
@@ -77,12 +89,17 @@ function SignInPage() {
   }
 
   return (
-    <Card className="mx-auto w-[350px]">
+    <Card className="mx-auto w-[400px]">
       <CardHeader>
         <CardTitle className="text-2xl">Sign In</CardTitle>
         <CardDescription>Login to your Account</CardDescription>
       </CardHeader>
       <CardContent>
+        {loginError && (
+          <div className="p-2 text-sm font-bold text-rose-500 bg-rose-200 border border-rose-400 rounded-md">
+            {loginError}
+          </div>
+        )}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
             <FormField

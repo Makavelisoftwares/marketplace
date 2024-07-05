@@ -9,9 +9,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Wallet } from "lucide-react";
+import { redirect } from "next/navigation";
 
 async function DashboardPage() {
   const { user } = await getUserByEmail();
+
+  if(user?.Blocked){
+    redirect("/auth/sign-in")
+  }
 
   return (
     <Card className="border-none shadow-none">

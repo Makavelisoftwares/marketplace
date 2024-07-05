@@ -29,6 +29,8 @@ model User {
   Session       Session[]
   Account       Account?
 
+  Blocked Boolean @default(false)
+
   Role Role @default(CLIENT)
 
   createdAt DateTime @default(now())
