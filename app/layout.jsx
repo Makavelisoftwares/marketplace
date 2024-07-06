@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "MarketPlace",
-  description: "Showcase and sale your talents",
+  description: "Showcase and sale your services",
 };
 
 export default async function RootLayout({ children }) {

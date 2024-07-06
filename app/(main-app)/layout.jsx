@@ -16,7 +16,7 @@ async function DshboardLayout({ children }) {
           <div className="top-0 bg-white sticky border-b border-b-zinc-300/40">
             <HeaderNav user={user} />
           </div>
-          <div className="p-3">{children}</div>
+          <div className="p-3" >{children}</div>
         </div>
       </div>
     </div>

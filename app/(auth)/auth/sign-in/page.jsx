@@ -27,9 +27,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { signIn } from "next-auth/react";
 import { Loader } from "lucide-react";
-// import { toast } from "sonner";
-import { useRouter, useSearchParams } from "next/navigation";
-import axios from "axios";
+import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 const formSchema = z.object({
@@ -74,8 +72,8 @@ function SignInPage() {
             setloginError(res.error);
           }
 
-          if(!res?.error){
-            push("/")
+          if (!res?.error) {
+            push("/");
           }
         })
         .catch((err) => {

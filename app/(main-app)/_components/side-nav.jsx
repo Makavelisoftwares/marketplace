@@ -1,10 +1,12 @@
 'use client'
 
 import { cn } from "@/lib/utils";
+import { AnimationLink } from "@/utils/page-transition";
 import {
   AlertCircle,
   Edit,
   Layout,
+  List,
   MessageCircle,
   UsersRound,
   Wallet,
@@ -21,6 +23,12 @@ export const SideNav = ({ user }) => {
       href: "/dashboard",
       icon: <Layout />,
       tooltip: "Dashboard overview",
+    },
+    {
+      name: "Categories",
+      href: "/dashboard/category",
+      icon: <List />,
+      tooltip: "Manage and Moderate all posts",
     },
     {
       name: "Posts",
@@ -59,7 +67,7 @@ export const SideNav = ({ user }) => {
       <div>
         <div className="tracking-widest text-lg font-bold mb-4 p-2">Logo</div>
         {Links?.map((item, i) => (
-          <Link
+          <AnimationLink
             href={item?.href}
             key={i}
             className={cn("w-full p-4 flex items-center space-x-2",
@@ -71,7 +79,7 @@ export const SideNav = ({ user }) => {
               path==item?.href && "animate-spin duration-1000 repeat-1"
             )}>{item?.icon}</span>
             <div>{item?.name}</div>
-          </Link>
+          </AnimationLink>
         ))}
       </div>
 
