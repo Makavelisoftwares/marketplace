@@ -1,6 +1,5 @@
 "use server";
 
-import CategoryPage from "@/app/(main-app)/dashboard/category/page";
 import { db } from "@/utils/db";
 import { revalidatePath } from "next/cache";
 

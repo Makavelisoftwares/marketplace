@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { cn } from "@/lib/utils";
 import { AnimationLink } from "@/utils/page-transition";
@@ -11,11 +11,10 @@ import {
   UsersRound,
   Wallet,
 } from "lucide-react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export const SideNav = ({ user }) => {
-  const path=usePathname()
+  const path = usePathname();
 
   const Links = [
     {
@@ -70,14 +69,19 @@ export const SideNav = ({ user }) => {
           <AnimationLink
             href={item?.href}
             key={i}
-            className={cn("w-full p-4 flex items-center space-x-2",
-              path==item?.href && "bg-sky-700 text-white"
-
+            className={cn(
+              "w-full p-4 flex items-center space-x-2",
+              path == item?.href && "bg-sky-700 text-white"
             )}
           >
-            <span className={cn("",
-              path==item?.href && "animate-spin duration-1000 repeat-1"
-            )}>{item?.icon}</span>
+            <span
+              className={cn(
+                "",
+                path == item?.href && "animate-spin duration-1000 repeat-1"
+              )}
+            >
+              {item?.icon}
+            </span>
             <div>{item?.name}</div>
           </AnimationLink>
         ))}
@@ -85,7 +89,7 @@ export const SideNav = ({ user }) => {
 
       <div className="flex items-center p-2 space-x-1">
         <div className="w-[30px] h-[30px] uppercase flex items-center justify-center font-bold text-white text-center bg-emerald-950">
-        {user?.name[0]}
+          {user?.name[0]}
         </div>
         <div>
           <div className="text-sm font-bold">{user?.name}</div>
