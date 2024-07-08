@@ -10,13 +10,24 @@ import {
 } from "@/components/ui/card";
 import { Wallet } from "lucide-react";
 import { redirect } from "next/navigation";
+import { db } from "@/utils/db";
+import {
+  filterUserByDate,
+  filterUserByRole,
+} from "@/utils/sub-utils/filter-users";
 
 async function DashboardPage() {
   const { user } = await getUserByEmail();
 
-  if(user?.Blocked){
-    redirect("/auth/sign-in")
+  if (user?.Blocked) {
+    redirect("/auth/sign-in");
   }
+  
+
+  // USERS FUNCTIONANLITY
+  const RegisteredUsers = await db.user.findMany();
+  const { today_users } = filterUserByDate(RegisteredUsers);
+  const { moderators } = filterUserByRole(RegisteredUsers);
 
   return (
     <Card className="border-none shadow-none">
@@ -71,16 +82,16 @@ async function DashboardPage() {
 
           <ItemCard
             title="REGISTERED USERS"
-            today={262}
-            total={27722}
+            today={today_users?.length}
+            total={RegisteredUsers?.length}
             description="These are the total number of registered users on the platform"
             className="col-span-1"
           />
 
           <ItemCard
             title="MODERATORS"
-            today={10}
-            total={200}
+            today={moderators?.length}
+            total={moderators?.length}
             description="These are the total number of registered moderators on the platform"
             className="col-span-1"
           />
