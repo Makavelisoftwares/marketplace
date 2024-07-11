@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { PostDialog } from "./_components/_sub-components/post-dialog";
 import { SinglePost } from "./_components/single-post";
 import { UserProfile } from "./_components/user-profile";
+import { MyFollowings } from "./_components/my-following";
 // import { FileImage, FileVideo2, ListPlusIcon } from "lucide-react";
 
 export default async function Home() {
@@ -49,11 +50,13 @@ export default async function Home() {
           </div>
 
           <div>
-            <SinglePost  />
+            <SinglePost user={getUser} />
           </div>
         </div>
       </div>
-      <div className="col-span-1">follow</div>
+      <div className="col-span-1">
+        <MyFollowings/>
+      </div>
     </div>
   );
 }

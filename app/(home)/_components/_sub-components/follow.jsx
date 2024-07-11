@@ -2,15 +2,13 @@
 import { FollowUser } from "@/actions/follow.action";
 import { Button } from "@/components/ui/button";
 import { UserPlus } from "lucide-react";
-import { toast } from "sonner";
 
-export const Follow = ({userId}) => {
-  const handleFollow =async () => {
+export const Follow = ({ userId }) => {
+  const handleFollow = async () => {
     try {
-        await FollowUser(userId)
-        toast.success("following")
+      await FollowUser(userId);
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
   };
 

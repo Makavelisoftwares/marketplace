@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,26 +6,23 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { getPost } from "@/utils/getPosts";
-import {
-  Bookmark,
-  MessageCircle,
-  Repeat,
-  ThumbsUp,
-  UserPlus,
-} from "lucide-react";
+import { Bookmark, MessageCircle, Repeat, ThumbsUp } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
 import { Follow } from "./_sub-components/follow";
 import { cn } from "@/lib/utils";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "@/utils/auth-options";
-import { db } from "@/utils/db";
-import { getUserByEmail } from "@/utils/get-user";
 
-export const SinglePost = async () => {
+export const SinglePost = async ({ user }) => {
   const { posts } = await getPost();
   const session = await getServerSession(AuthOptions);
   const email = session?.user?.email;
+
+  let following;
+  for (let item of user?.Following) {
+    following = item?.followingId;
+  }
 
   return (
     <div className="space-y-2 mt-2">
@@ -39,17 +35,26 @@ export const SinglePost = async () => {
                   {item?.user?.name[0]}
                 </div>
                 <div>
-                  <div className="text-sm font-bold">{item?.user?.name}</div>
+                  <div className="text-sm font-bold">
+                    {item?.user?.name == user?.name ? "You" : item?.user?.name}
+                  </div>
                   <div className="text-xs text-zinc-400">
                     {moment(item?.createdAt).fromNow()}
                   </div>
                 </div>
               </div>
-              <div
-                className={cn("block", item?.user?.email == email && "hidden")}
-              >
-                <Follow userId={item?.user?.id} />
-              </div>
+              {following == item?.user?.id ? (
+                <div className="text-sky-800 text-sm font-bold cursor-not-allowed">following</div>
+              ) : (
+                <div
+                  className={cn(
+                    "block",
+                    item?.user?.email == email && "hidden"
+                  )}
+                >
+                  <Follow userId={item?.user?.id} />
+                </div>
+              )}
             </div>
             <CardDescription className="my-2 ">
               {item?.content.slice(0, 250)}
