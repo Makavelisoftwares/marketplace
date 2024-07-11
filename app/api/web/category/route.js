@@ -11,7 +11,17 @@ export const DELETE = async (req) => {
       },
     });
 
-    return NextResponse.json("success",{status:200})
+    return NextResponse.json("success", { status: 200 });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const GET = async (req) => {
+  try {
+    const categories = await db.category.findMany();
+
+    return NextResponse.json({ categories }, { status: 200 });
   } catch (error) {
     console.log(error);
   }
