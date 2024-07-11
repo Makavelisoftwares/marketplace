@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { PostDialog } from "./_components/_sub-components/post-dialog";
 import { SinglePost } from "./_components/single-post";
+import { UserProfile } from "./_components/user-profile";
 // import { FileImage, FileVideo2, ListPlusIcon } from "lucide-react";
 
 export default async function Home() {
@@ -20,6 +21,12 @@ export default async function Home() {
     where: {
       email,
     },
+    include: {
+      Post: true,
+      Following: true,
+      FollowedBy: true,
+      Likes: true,
+    },
   });
 
   if (getUser?.Role == "SUPERADMINISTRATOR" || getUser?.Role == "MODERATOR") {
@@ -28,10 +35,12 @@ export default async function Home() {
 
   return (
     <div className="grid grid-cols-4 gap-3">
-      <div className="col-span-1">profile</div>
+      <div className="col-span-1 sticky top-12">
+        <UserProfile user={getUser} />
+      </div>
       <div className="col-span-2">
         <div className="">
-          <div className="flex items-center space-x-2">
+          <div className="flex sticky z-50 bg-white top-12 items-center space-x-2">
             <div className="uppercase bg-emerald-950 text-white h-[50px] w-[50px] font-bold flex items-center justify-center">
               {getUser?.name[0]}
             </div>
@@ -40,7 +49,7 @@ export default async function Home() {
           </div>
 
           <div>
-            <SinglePost />
+            <SinglePost  />
           </div>
         </div>
       </div>
