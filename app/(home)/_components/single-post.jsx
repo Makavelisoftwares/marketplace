@@ -13,6 +13,8 @@ import { Follow } from "./_sub-components/follow";
 import { cn } from "@/lib/utils";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "@/utils/auth-options";
+import { Like } from "./_sub-components/like";
+import { DisLike } from "./_sub-components/dislike";
 
 export const SinglePost = async ({ user }) => {
   const { posts } = await getPost();
@@ -44,7 +46,9 @@ export const SinglePost = async ({ user }) => {
                 </div>
               </div>
               {following == item?.user?.id ? (
-                <div className="text-sky-800 text-sm font-bold cursor-not-allowed">following</div>
+                <div className="text-sky-800 text-sm font-bold cursor-not-allowed">
+                  following
+                </div>
               ) : (
                 <div
                   className={cn(
@@ -75,14 +79,21 @@ export const SinglePost = async ({ user }) => {
             <div className="flex w-full text-sm items-center justify-between">
               <div className="text-zinc-500">likes {item?.Likes?.length}</div>
               <div className="text-zinc-500">
-                comments {item?.Likes?.length}
+                comments {item?.Comments?.length}
               </div>
             </div>
+
             <div className="grid grid-cols-4 gap-2 pt-2 border-t border-zinc-300/30 items-center justify-evenly">
-              <div className="col-span-1 cursor-pointer flex items-center space-x-2">
-                <ThumbsUp />
-                <span className="text-xs text-zinc-400">like</span>
-              </div>
+              {item?.Likes.some((like) => like.userId === user?.id) ? (
+                <div className="col-span-1 flex items-center space-x-2">
+                  <DisLike postId={item?.id} />
+                </div>
+              ) : (
+                <div className="col-span-1 cursor-pointer flex items-center space-x-2">
+                  <Like postId={item?.id} userId={user?.id} />
+                </div>
+              )}
+
               <div className="col-span-1 cursor-pointer flex items-center space-x-2">
                 <MessageCircle />
                 <span className="text-xs text-zinc-400">comment</span>
