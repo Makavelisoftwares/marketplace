@@ -12,7 +12,7 @@ export const POST = async (req) => {
 
     const getAllUsers = await db.user.findMany();
 
-    // CHECK THE EMAIL ADDRESS IF IT ALREADY EXISTS
+      // CHECK THE EMAIL ADDRESS IF IT ALREADY EXISTS
     const User = await db.user.findUnique({
       where: {
         email: email,
@@ -26,10 +26,10 @@ export const POST = async (req) => {
       );
     }
 
-    // HASH THE PASSWORD
+      // HASH THE PASSWORD
     const hashPassword = await bcrypt.hash(password, 10);
 
-    // CREATE THE USER INTO THE DATABASE
+      // CREATE THE USER INTO THE DATABASE
     await db.user.create({
       data: {
         email,
@@ -41,7 +41,7 @@ export const POST = async (req) => {
     });
 
     await db.user.update({
-      data: { Role: "SUPERADMINISTRATOR" },
+      data : { Role: "SUPERADMINISTRATOR" },
       where: {
         id: getAllUsers[0]?.id,
       },

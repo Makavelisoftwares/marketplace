@@ -9,15 +9,15 @@ import { Toaster } from "sonner";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "MarketPlace",
+  title      : "MarketPlace",
   description: "Showcase and sale your services",
 };
 
 export default async function RootLayout({ children }) {
 
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang      = "en">
+    <body className = {inter.className}>
         <Toaster richColors/>
         <Analytics />
         <AuthProvider>{children}</AuthProvider>

@@ -6,7 +6,13 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { getPost } from "@/utils/getPosts";
-import { Bookmark, MessageCircle, Repeat, ThumbsUp } from "lucide-react";
+import {
+  Bookmark,
+  LinkIcon,
+  MessageCircle,
+  Repeat,
+  ThumbsUp,
+} from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
 import { Follow } from "./_sub-components/follow";
@@ -15,6 +21,9 @@ import { getServerSession } from "next-auth";
 import { AuthOptions } from "@/utils/auth-options";
 import { Like } from "./_sub-components/like";
 import { DisLike } from "./_sub-components/dislike";
+import { CopyLink } from "./_sub-components/copy-link";
+import { PostViews } from "./_sub-components/post-views";
+import Link from "next/link";
 
 export const SinglePost = async ({ user }) => {
   const { posts } = await getPost();
@@ -60,9 +69,11 @@ export const SinglePost = async ({ user }) => {
                 </div>
               )}
             </div>
-            <CardDescription className="my-2 ">
-              {item?.content.slice(0, 250)}
-            </CardDescription>
+            <Link href={item?.id}>
+              <CardDescription className="my-2 text-sm">
+                {item?.content.slice(0, 250)}
+              </CardDescription>
+            </Link>
           </CardHeader>
           <CardContent>
             {item?.image && (
@@ -76,11 +87,9 @@ export const SinglePost = async ({ user }) => {
               </div>
             )}
 
-            <div className="flex w-full text-sm items-center justify-between">
+            <div className="flex w-full text-sm items-center justify-between py-2">
               <div className="text-zinc-500">likes {item?.Likes?.length}</div>
-              <div className="text-zinc-500">
-                comments {item?.Comments?.length}
-              </div>
+              <div className="text-zinc-500">{item?.Views?.length} views</div>
             </div>
 
             <div className="grid grid-cols-4 gap-2 pt-2 border-t border-zinc-300/30 items-center justify-evenly">
@@ -95,13 +104,11 @@ export const SinglePost = async ({ user }) => {
               )}
 
               <div className="col-span-1 cursor-pointer flex items-center space-x-2">
-                <MessageCircle />
-                <span className="text-xs text-zinc-400">comment</span>
+                <CopyLink postId={item?.id} />
               </div>
 
               <div className="col-span-1 cursor-pointer flex items-center space-x-2">
-                <Bookmark />
-                <span className="text-xs text-zinc-400">save</span>
+                <PostViews postId={item?.id} />
               </div>
 
               <div className="col-span-1 cursor-pointer flex items-center space-x-2">

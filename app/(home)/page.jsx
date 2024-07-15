@@ -12,7 +12,6 @@ export default async function Home() {
   const session = await getServerSession(AuthOptions);
   const email = session?.user?.email;
 
-  console.log(email);
 
   if (!email) {
     redirect("/auth/sign-in");
@@ -23,10 +22,10 @@ export default async function Home() {
       email,
     },
     include: {
-      Post: true,
-      Following: true,
+      Post      : true,
+      Following : true,
       FollowedBy: true,
-      Likes: true,
+      Likes     : true,
     },
   });
 
@@ -55,7 +54,7 @@ export default async function Home() {
         </div>
       </div>
       <div className="col-span-1">
-        <MyFollowings/>
+        <MyFollowings />
       </div>
     </div>
   );
