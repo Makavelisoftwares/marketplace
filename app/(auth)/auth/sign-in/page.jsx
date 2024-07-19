@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import { signIn } from "next-auth/react";
-import { Loader } from "lucide-react";
+import { Eye, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
@@ -56,6 +56,15 @@ function SignInPage() {
   const form = useForm({
     resolver: zodResolver(formSchema),
   });
+
+  const handleHide = () => {
+    const password = document.querySelector(".password");
+    if (password.type == "password") {
+      password.type = "name";
+    } else {
+      password.type = "password";
+    }
+  };
 
   async function onSubmit(values) {
     try {
@@ -124,12 +133,18 @@ function SignInPage() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="flex items-center justify-between text-black">
-                    <div>password</div>
+                    <div className="flex items-center justify-between w-full">
+                      <div>password</div>
+                      <div className="cursor-pointer" onClick={handleHide}>
+                        <Eye />
+                      </div>
+                    </div>
                   </FormLabel>
                   <FormControl>
                     <Input
                       disabled={isSubmitting}
                       type="password"
+                      className="password"
                       placeholder="*******"
                       {...field}
                     />
@@ -159,9 +174,13 @@ function SignInPage() {
         </Form>
 
         <Separator className="my-2" />
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-between">
           <Link className="text-xs underline text-center" href="/auth/sign-up">
             Create Account
+          </Link>
+
+          <Link className="text-xs underline text-center" href="/auth/password">
+            Reset password?
           </Link>
         </div>
       </CardContent>

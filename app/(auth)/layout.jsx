@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
 
-function AuthLayout({children}) {
+function AuthLayout({ children }) {
   return (
-    <div className='flex items-center justify-center min-h-screen'>{children}</div>
-  )
+    <div className="flex  min-h-screen">
+      <div className="md:w-[600px]  bg-amber-500"></div>
+      <div className="flex items-center justify-center m-auto"> {children}</div>
+    </div>
+  );
 }
 
-export default AuthLayout
+export default AuthLayout;

@@ -25,11 +25,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
-import { signIn } from "next-auth/react";
-import { Loader } from "lucide-react";
-import { toast } from "sonner";
+import { Eye, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import { createUser } from "@/actions/user.action";
 
 const formSchema = z.object({
   email: z
@@ -57,33 +55,35 @@ const formSchema = z.object({
 function SignUpPage() {
   const [isSubmitting, setisSubmitting] = useState(false);
   const { push } = useRouter();
+  const [newError, setError] = useState("");
   const form = useForm({
     resolver: zodResolver(formSchema),
   });
 
-  async function onSubmit(values) {
-    console.log(values);
-    try {
-      setisSubmitting(true);
-      const resp = await axios.post("/api/auth/sign-up", {
-        firstname: values.firstname,
-        lastname: values.lastname,
-        password: values.password,
-        email: values.email,
-      });
+  const handleHide = () => {
+    const password = document.querySelector(".password");
+    if (password.type == "password") {
+      password.type = "name";
+    } else {
+      password.type = "password";
+    }
+  };
 
-      toast.success("Account created")
-      push("/auth/sign-in");
-    } catch (error) {
-      //   toast.error(error.response.data.error);
-      console.log(error);
-    } finally {
-      setisSubmitting(false);
+  async function onSubmit(values) {
+    const { error, user } = await createUser(values);
+
+    if (error) {
+      setError(error);
+    }
+
+    if (user) {
+      setError("");
+      push(`/auth/verify-account?id=${user.id}`);
     }
   }
 
   return (
-    <Card className="mx-auto max-w-sm">
+    <Card className="mx-auto md:max-w-md">
       <CardHeader>
         <CardTitle className="text-2xl">Create Account</CardTitle>
         <CardDescription>
@@ -91,6 +91,12 @@ function SignUpPage() {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        {newError !== "" && (
+          <div className="text-sm bg-rose-200 mb-2 font-bold text-rose-500 p-2 border border-rose-500">
+            {newError}
+          </div>
+        )}
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
             <div className="grid grid-cols-2 gap-2">
@@ -159,13 +165,19 @@ function SignUpPage() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="flex items-center justify-between text-black">
-                    <div>password</div>
+                    <div className="flex items-center justify-between w-full">
+                      <div>password</div>
+                      <div className="cursor-pointer" onClick={handleHide}>
+                        <Eye />
+                      </div>
+                    </div>{" "}
                   </FormLabel>
                   <FormControl>
                     <Input
                       disabled={isSubmitting}
                       type="password"
                       placeholder="*******"
+                      className="password"
                       {...field}
                     />
                   </FormControl>
@@ -177,7 +189,7 @@ function SignUpPage() {
 
             <div className="flex flex-col ">
               <Button
-                className="bg-emerald-500 hover:bg-emerald-500"
+                className="bg-sky-500 hover:bg-sky-500"
                 disabled={isSubmitting}
                 type="submit"
               >
