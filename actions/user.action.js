@@ -68,22 +68,22 @@ export const VerifyAccountByCode = async (code, id) => {
     },
   });
 
-  // let transporter = nodemailer.createTransport({
-  //   service: "gmail",
-  //   auth: {
-  //     user: process.env.GMAIL_USER,
-  //     pass: process.env.GMAIL_PASSWORD,
-  //   },
-  // });
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_PASSWORD,
+    },
+  });
 
-  // let mailoptions = {
-  //   from: process.env.GMAIL_USER,
-  //   to: email,
-  //   subject: "Verification Code",
-  //   text: `Your verication code is ${findUser?.code}`,
-  // };
+  let mailoptions = {
+    from: process.env.GMAIL_USER,
+    to: email,
+    subject: "Verification Code",
+    text: `Your verication code is ${findUser?.code}`,
+  };
 
-  // await transporter.sendMail(mailoptions);
+  await transporter.sendMail(mailoptions);
 
   if (findUser?.code !== code) {
     return { error: "invalid code" };

@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,6 +19,12 @@ import { useForm } from "react-hook-form";
 import { ResetPassword } from "@/actions/user.action";
 import { useState } from "react";
 
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+
 export const NewPasswordField = () => {
   const form = useForm({
     resolver: zodResolver(ResetPasswordFormSchema),
@@ -27,7 +32,7 @@ export const NewPasswordField = () => {
   const id = useSearchParams().get("id");
   const [newError, setnewError] = useState("");
   const [success, setsuccess] = useState("");
-  const {push}=useRouter()
+  const { push } = useRouter();
 
   const handleHide = () => {
     const password = document.querySelector(".password");
@@ -78,7 +83,16 @@ export const NewPasswordField = () => {
               <FormItem>
                 <FormLabel className="font-bold">Enter code</FormLabel>
                 <FormControl>
-                  <Input placeholder="" {...field} />
+                  <InputOTP maxLength={6} {...field}>
+                    <InputOTPGroup className="w-full flex items-center justify-evenly">
+                      <InputOTPSlot index={0} />
+                      <InputOTPSlot index={1} />
+                      <InputOTPSlot index={2} />
+                      <InputOTPSlot index={3} />
+                      <InputOTPSlot index={4} />
+                      <InputOTPSlot index={5} />
+                    </InputOTPGroup>
+                  </InputOTP>
                 </FormControl>
 
                 <FormMessage />

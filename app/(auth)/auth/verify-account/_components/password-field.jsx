@@ -12,6 +12,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 import { VerificationCodeSchema } from "@/validation/schemas";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -69,10 +74,19 @@ export const Verificationfield = () => {
               <FormItem>
                 <FormLabel className="font-bold">Code</FormLabel>
                 <FormControl>
-                  <Input placeholder="" {...field} />
+                  <InputOTP maxLength={6} {...field}>
+                    <InputOTPGroup className="w-full flex items-center justify-evenly">
+                      <InputOTPSlot index={0} />
+                      <InputOTPSlot index={1} />
+                      <InputOTPSlot index={2} />
+                      <InputOTPSlot index={3} />
+                      <InputOTPSlot index={4} />
+                      <InputOTPSlot index={5} />
+                    </InputOTPGroup>
+                  </InputOTP>
                 </FormControl>
                 <FormDescription>
-                  Enter code to verify the account.
+                  Enter code sent to your email to verify this account.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
