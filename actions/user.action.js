@@ -1,8 +1,10 @@
 "use server";
 
 import { GenereteCode } from "@/lib/generate-code";
+import { AuthOptions } from "@/utils/auth-options";
 import { db } from "@/utils/db";
 import bcrypt from "bcrypt";
+import { getServerSession } from "next-auth";
 
 import nodemailer from "nodemailer";
 
@@ -61,6 +63,12 @@ export const createUser = async (values) => {
   return { user };
 };
 
+
+
+
+
+
+
 export const VerifyAccountByCode = async (code, id) => {
   const findUser = await db.user.findUnique({
     where: {
@@ -101,6 +109,11 @@ export const VerifyAccountByCode = async (code, id) => {
   return { success: "Account has been verified" };
 };
 
+
+
+
+
+
 export const findEmailAndSendCode = async (email) => {
   const findUser = await db.user.findMany({
     where: {
@@ -132,6 +145,11 @@ export const findEmailAndSendCode = async (email) => {
   return { id: findUser[0].id };
 };
 
+
+
+
+
+
 export const ResetPassword = async (code, password, id) => {
   const findUser = await db.user.findUnique({
     where: {
@@ -155,4 +173,21 @@ export const ResetPassword = async (code, password, id) => {
   });
 
   return { success: "new password has been set" };
+};
+
+
+
+
+
+
+
+export const searchUserUsingEmailInLogin = async () => {
+  const { user: AuthorizedUser } = await getServerSession(AuthOptions);
+  const findDbUser = await db.user.findMany({
+    where: {
+      email: AuthorizedUser.email,
+    },
+  });
+
+  return { id: findDbUser[0].id };
 };

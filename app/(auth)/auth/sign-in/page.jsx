@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -29,6 +29,7 @@ import { signIn } from "next-auth/react";
 import { Eye, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { searchUserUsingEmailInLogin } from "@/actions/user.action";
 
 const formSchema = z.object({
   email: z
@@ -49,7 +50,7 @@ const formSchema = z.object({
 });
 
 function SignInPage() {
-  const [isSubmitting, setisSubmitting] = useState(false);
+  const [isSubmitting, setisSubmitting] = useTransition(false);
   const { push } = useRouter();
   const [loginError, setloginError] = useState("");
 
@@ -67,32 +68,30 @@ function SignInPage() {
   };
 
   async function onSubmit(values) {
-    try {
-      setisSubmitting(true);
-
-      signIn("credentials", {
-        callbackUrl: `${window.location.origin}`,
-        redirect: false,
-        email: values.email,
-        password: values.password,
-      })
-        .then((res) => {
-          if (res?.error) {
-            setloginError(res.error);
-          }
-
-          if (!res?.error) {
-            push("/");
-          }
+    setisSubmitting(async () => {
+      try {
+        signIn("credentials", {
+          redirect: false,
+          email: values.email,
+          password: values.password,
         })
-        .catch((err) => {
-          console.log(err);
-        });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setisSubmitting(false);
-    }
+          .then(async (res) => {
+            if (res?.error) {
+              setloginError(res.error);
+            }
+
+            if (!res?.error) {
+              const { id } = await searchUserUsingEmailInLogin();
+              push(`/company?id=${id}`);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    });
   }
 
   return (

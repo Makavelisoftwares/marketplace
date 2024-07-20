@@ -35,13 +35,7 @@ model User {
 
   Role Role @default(CLIENT)
 
-  // Post  Post[]
-  // Likes Likes[]
-  // Views Views[]
-
-  // DisLikes   DisLikes[]
-  // Following  Follow[]   @relation("following")
-  // FollowedBy Follow[]   @relation("followedBy")
+  Business Business[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -70,6 +64,18 @@ model Account {
   @@index([userId])
 }
 
+model Business {
+  id String @id @default(cuid())
+
+  name String?
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
@@ -90,90 +96,3 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
-
-// model Post {
-//   id      String @id @default(cuid())
-//   content String @db.Text
-
-//   image String?
-//   video String?
-//   url   String? @db.Text
-//   price String?
-
-//   moderated Boolean @default(false)
-
-//   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   categoryId String
-
-//   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   userId String
-
-//   Likes    Likes[]
-//   Views    Views[]
-//   DisLikes DisLikes[]
-
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
-
-// model Follow {
-//   id String @id @default(cuid())
-
-//   follower   User   @relation(name: "following", fields: [followerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   followerId String
-
-//   following   User   @relation(name: "followedBy", fields: [followingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   followingId String
-
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
-
-// model Category {
-//   id   String @id @default(cuid())
-//   name String
-
-//   Post Post[]
-
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
-
-// model Likes {
-//   id String @id @default(cuid())
-
-//   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   userId String
-
-//   post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   postId String
-
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
-
-// model DisLikes {
-//   id String @id @default(cuid())
-
-//   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   userId String
-
-//   post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   postId String
-
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
-
-// model Views {
-//   id String @id @default(cuid())
-
-//   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   userId String
-
-//   post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   postId String
-
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }

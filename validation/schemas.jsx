@@ -43,3 +43,12 @@ export const ResetPasswordFormSchema = z.object({
       message: "minimum of 8 characters",
     }),
 });
+
+
+export const CompanySchema=z.object({
+  name:z.string({
+    required_error:"provide a name for your business"
+  }).min(2,{
+    message:"name should be atleast 2 characters"
+  })
+})
