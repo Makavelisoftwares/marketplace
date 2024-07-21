@@ -1,4 +1,3 @@
-import { CodeIcon } from "lucide-react";
 import { z } from "zod";
 
 export const PasswordFormSchema = z.object({
@@ -44,11 +43,50 @@ export const ResetPasswordFormSchema = z.object({
     }),
 });
 
+export const CompanySchema = z.object({
+  name: z
+    .string({
+      required_error: "provide a name for your business",
+    })
+    .min(2, {
+      message: "name should be atleast 2 characters",
+    }),
+});
 
-export const CompanySchema=z.object({
-  name:z.string({
-    required_error:"provide a name for your business"
-  }).min(2,{
-    message:"name should be atleast 2 characters"
-  })
-})
+export const CategorySchema = z.object({
+  name: z
+    .string({
+      required_error: "provide a name for your category",
+    })
+    .min(2, {
+      message: "name should be atleast 2 characters",
+    }),
+  desc: z
+    .string({
+      required_error: "provide a description for your category",
+    })
+    .min(10, {
+      message: "name should be atleast 10 characters",
+    }),
+});
+
+export const SupplierSchema = z.object({
+  name: z
+    .string({
+      required_error: "provide supplier's name",
+    })
+    .min(2, {
+      message: "name should be atleast 2 characters",
+    }),
+  email: z
+    .string({
+      required_error: "provide supplier's email",
+    })
+    .email({ message: "provide a valid email" }),
+  address: z.string({
+    required_error: "provide supplier's address",
+  }),
+  phone: z.string({
+    required_error: "provide supplier's phone number",
+  }),
+});
