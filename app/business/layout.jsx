@@ -8,7 +8,7 @@ function BusinessLayout({ children }) {
       <div className="py-3 border-b border-zinc-200 shadow-sm">
         <HeadNav />
       </div>
-      <div className="md:w-[1000px] mt-10 flex m-auto">
+      <div className="md:w-[90%] mt-10 flex m-auto">
         <div className="h-screen w-[200px] fixed">
           <SideBar />
         </div>

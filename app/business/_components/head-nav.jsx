@@ -3,7 +3,7 @@ import { Profile } from "./_sub-components/profile";
 
 export const HeadNav = () => {
   return (
-    <div className="flex m-auto md:w-[1000px] items-center justify-between">
+    <div className="flex m-auto md:w-[90%] items-center justify-between">
       <div className="flex items-center space-x-3">
         <div className="flex items-center tracking-wider text-4xl font-extrabold">
           <span className="text-rose-700 ">kom</span>

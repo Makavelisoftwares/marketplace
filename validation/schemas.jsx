@@ -90,3 +90,28 @@ export const SupplierSchema = z.object({
     required_error: "provide supplier's phone number",
   }),
 });
+
+export const ProductSchema = z.object({
+  name: z
+    .string({
+      required_error: "provide supplier's name",
+    })
+    .min(2, {
+      message: "name should be atleast 2 characters",
+    }),
+  desc: z.string({
+    required_error: "provide product description",
+  }),
+  category: z.string({
+    required_error: "select a category for your product",
+  }),
+  cost_price: z.string({
+    required_error: "provide cost price for the product",
+  }),
+  sell_price: z.string({
+    required_error: "provide selling price for the product",
+  }),
+  quantity: z.string({
+    required_error: "provide quantity for the product",
+  }),
+});
