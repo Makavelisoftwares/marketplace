@@ -2,8 +2,17 @@ import React from "react";
 import { ProductTableAndForm } from "./_components/product-table-form";
 import { ProductForm } from "./_components/product-form";
 import { ProductTable } from "./_components/product-table";
+import { getSuppliers } from "@/actions/supplier.action";
+import { getCategories } from "@/actions/category.action";
+import { getProducts } from "@/actions/product.action";
 
-function ProductPage() {
+async function ProductPage({ params }) {
+  const b_id = params.id;
+
+  const { suppliers } = await getSuppliers(b_id);
+  const { categories } = await getCategories(b_id);
+  const { products } = await getProducts(b_id);
+
   return (
     <div>
       <div>
@@ -12,10 +21,14 @@ function ProductPage() {
 
       <div>
         <div className="product-form hidden">
-          <ProductForm />
+          <ProductForm
+            suppliers={suppliers}
+            b_id={b_id}
+            categories={categories}
+          />
         </div>
         <div className="product-table mt-4">
-          <ProductTable />
+          <ProductTable products={products} />
         </div>
       </div>
     </div>

@@ -94,7 +94,7 @@ export const SupplierSchema = z.object({
 export const ProductSchema = z.object({
   name: z
     .string({
-      required_error: "provide supplier's name",
+      required_error: "provide product's name",
     })
     .min(2, {
       message: "name should be atleast 2 characters",
@@ -104,6 +104,9 @@ export const ProductSchema = z.object({
   }),
   category: z.string({
     required_error: "select a category for your product",
+  }),
+  supplier: z.string({
+    required_error: "select a supplier for the product",
   }),
   cost_price: z.string({
     required_error: "provide cost price for the product",
