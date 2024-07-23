@@ -25,15 +25,21 @@ export const createProduct = async (
   ) {
     return { error: "Missing field" };
   }
+
+  const new_costprice = parseFloat(costprice);
+  const new_sellprice = parseFloat(sellprice);
+  const new_quantity = parseFloat(quantity);
+
+
   await db.product.create({
     data: {
       businessId: b_id,
       categoryId,
-      costprice,
-      sellprice,
+      costprice:new_costprice,
+      sellprice:new_sellprice,
       description,
       name,
-      quantity,
+      quantity:new_quantity,
       supplierId,
     },
   });

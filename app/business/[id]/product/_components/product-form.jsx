@@ -95,8 +95,8 @@ export const ProductForm = ({ suppliers, b_id, categories }) => {
                     <FormLabel>Product quantity</FormLabel>
                     <FormControl>
                       <Input
-                        min={1}
-                        type="number"
+                        // min={1}
+                        // type="number"
                         placeholder="10"
                         {...field}
                       />

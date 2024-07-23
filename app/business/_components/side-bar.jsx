@@ -3,6 +3,7 @@
 import {
   Box,
   CheckCircle2,
+  Computer,
   HomeIcon,
   LayoutDashboard,
   UserCircleIcon,
@@ -41,6 +42,12 @@ export const SideBar = () => {
       name: "Orders",
       href: `/business/${b_id}/order`,
       icon: <CheckCircle2 />,
+    },
+
+    {
+      name: "Pos",
+      href: `/pos?id=${b_id}`,
+      icon: <Computer />,
     },
   ];
   return (

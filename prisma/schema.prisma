@@ -111,9 +111,9 @@ model Product {
   id          String  @id @default(cuid())
   name        String?
   description String? @db.Text
-  costprice   String?
-  sellprice   String?
-  quantity    String?
+  costprice   Float?
+  sellprice   Float?
+  quantity    Float?
 
   business   Business @relation(fields: [businessId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   businessId String

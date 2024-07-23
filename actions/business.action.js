@@ -15,3 +15,22 @@ export const createBusiness = async (userId, name) => {
 
   return { id: business?.id };
 };
+
+
+export const getBusiness=async(b_id)=>{
+  const biz=await db.business.findUnique({
+    where:{
+      id:b_id
+    },
+    include:{
+      Product:{
+        include:{
+          category:true,
+          supplier:true
+        }
+      }
+    }
+  })
+
+  return {biz}
+}
