@@ -3,7 +3,7 @@
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
-  const { body } = await req.json();
+  const body = await req.json();
   try {
     // Handle the callback logic
     console.log("M-Pesa Callback Received:", body);
