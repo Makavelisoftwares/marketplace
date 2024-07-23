@@ -2,7 +2,7 @@
 
 import { NextResponse } from "next/server";
 
-export async function POST(req) {
+export async function GET(req) {
   const body = await req.json();
   try {
     // Handle the callback logic
